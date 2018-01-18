@@ -5,11 +5,10 @@ import timeit
 
 class DBRMirror:
     def __init__(self, data):
-        if isinstance (data, str):
+        if isinstance(data, str):
             data = loadtxt(data)
         self.n = data[:, 0]
-        self.d = data[:, 1]
-
+        self.d = array(concatenate(([0], data[1:-1, 1], [0])))
 
     def reflection_coeff(self, incidentwavelength):
         nm = (self.n[:-1] / self.n[1:])
@@ -31,15 +30,15 @@ class DBRMirror:
 
 start = timeit.default_timer()
 
-data = np.array([
-    [1.0,  0],
+data = array([
+    [1.0,  inf],
     [3.5,  74.0],
     [3.0,  92.5],
     [3.5,  74.0],
     [3.0,  92.5],
     [3.5,  74.0],
     [3.0,  92.5],
-    [3.5, 0]
+    [3.5, inf]
 ])
 
 NewMirror = DBRMirror(data)
