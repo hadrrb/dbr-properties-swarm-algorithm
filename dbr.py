@@ -23,9 +23,12 @@ class DBRMirror:
                 general_transition_matrix = dot(general_transition_matrix, transition_matrix[:, :, k])
 
             r = - general_transition_matrix.item(2) / general_transition_matrix.item(3)
-            R = append(R, abs(r)**2)
+            # R = append(R, abs(r)**2)
+            R = append(R, r)
 
-        return R
+        phi = arctan(imag(R)/real(R))
+        GDD = gradient(gradient(phi))
+        return GDD * 10**6  # GDD in fs2 since lambda in nm
 
 
 start = timeit.default_timer()
@@ -43,14 +46,14 @@ data = array([
 
 NewMirror = DBRMirror(data)
 
-wavelength = array(linspace(600,2000,100000))
+wavelength = array(linspace(600,2000,10000))
 
-R = NewMirror.reflection_coeff(wavelength)
+gdd = NewMirror.reflection_coeff(wavelength)
 
 stop = timeit.default_timer()
 print(stop - start)
 
-plot(wavelength, R)
+plot(wavelength, gdd)
 xlabel("$\lambda$")
 ylabel("R")
 show()
