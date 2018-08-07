@@ -1,7 +1,7 @@
 from numpy import *
 from pylab import *
 import timeit
-
+import dbrprop
 
 class DBRMirror:
     def __init__(self, data):
@@ -34,20 +34,21 @@ class DBRMirror:
 
 start = timeit.default_timer()
 
-data = array([
-    [1.0, inf],
-    [3.5, 74.0],
-    [3.0, 92.5],
-    [3.5, 74.0],
-    [3.0, 92.5],
-    [3.5, 74.0],
-    [3.0, 92.5],
-    [3.5, inf]
-])
+# data = array([
+#     [1.0, inf],
+#     [3.5, 74.0],
+#     [3.0, 92.5],
+#     [3.5, 74.0],
+#     [3.0, 92.5],
+#     [3.5, 74.0],
+#     [3.0, 92.5],
+#     [3.5, inf]
+# ])
 
-NewMirror = DBRMirror(data)
+New = dbrprop.DBRprop()
+NewMirror = DBRMirror(New.data)
 
-wavelength = array(linspace(600, 2000, 10000))
+wavelength = array(linspace(400, 4000, 1000))
 
 gdd = NewMirror.reflection_coeff(wavelength)
 
