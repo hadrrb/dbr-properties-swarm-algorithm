@@ -14,9 +14,9 @@ class DBRMirror:
         nm = (self.n[:-1] / self.n[1:])
         R = array([])
         for wavelength in incidentwavelength:
-            phi = 2j*pi*self.n[:-1]*self.d[:-1]/wavelength
-            transition_matrix = array([[0.5*(1+nm)*exp(-phi), 0.5*(1-nm)*exp(phi)],
-                                  [0.5*(1-nm)*exp(-phi), 0.5*(1+nm)*exp(phi)]])
+            phi = 2j * pi * self.n[:-1] * self.d[:-1] / wavelength
+            transition_matrix = array([[0.5 * (1 + nm) * exp(-phi), 0.5 * (1 - nm) * exp(phi)],
+                                       [0.5 * (1 - nm) * exp(-phi), 0.5 * (1 + nm) * exp(phi)]])
 
             general_transition_matrix = 1
             for k in range(self.n.size - 2, -1, -1):
@@ -26,27 +26,28 @@ class DBRMirror:
             # R = append(R, abs(r)**2)
             R = append(R, r)
 
-        phi = arctan(imag(R)/real(R))
-        GDD = gradient(gradient(phi))
-        return GDD * 10**6  # GDD in fs2 since lambda in nm
+        phi = arctan(imag(R) / real(R))
+        c = 29.9792458  # in nm/fs
+        GDD = incidentwavelength ** 2 / (2 * pi * c) * gradient(incidentwavelength ** 2 / (2 * pi * c) * gradient(phi))
+        return GDD
 
 
 start = timeit.default_timer()
 
 data = array([
-    [1.0,  inf],
-    [3.5,  74.0],
-    [3.0,  92.5],
-    [3.5,  74.0],
-    [3.0,  92.5],
-    [3.5,  74.0],
-    [3.0,  92.5],
+    [1.0, inf],
+    [3.5, 74.0],
+    [3.0, 92.5],
+    [3.5, 74.0],
+    [3.0, 92.5],
+    [3.5, 74.0],
+    [3.0, 92.5],
     [3.5, inf]
 ])
 
 NewMirror = DBRMirror(data)
 
-wavelength = array(linspace(600,2000,10000))
+wavelength = array(linspace(600, 2000, 10000))
 
 gdd = NewMirror.reflection_coeff(wavelength)
 
@@ -55,5 +56,5 @@ print(stop - start)
 
 plot(wavelength, gdd)
 xlabel("$\lambda$")
-ylabel("R")
+ylabel("GDD [fs**2]")
 show()
