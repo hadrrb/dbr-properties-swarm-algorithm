@@ -17,18 +17,19 @@ class DBRMirror:
 
     def reflection_coeff(self, incidentwavelength):
         nm = (self.n[:-1] / self.n[1:])
-        r = np.empty(incidentwavelength.size) + 0j
+        r = np.empty(incidentwavelength. size) + 0j
+        general_transition_matrix = np.broadcast_to(np.eye(2, dtype= complex), (incidentwavelength.shape[0], 2, 2))
 
-        for i in range(0, incidentwavelength.shape[0]):
-            phi = 2j * np.pi * self.n[1:] * self.d[1:] / wavelength[i]
-            transition_matrix = np.array([[0.5 * (1 + nm) * np.exp(-phi), 0.5 * (1 - nm) * np.exp(phi)],
-                                          [0.5 * (1 - nm) * np.exp(-phi), 0.5 * (1 + nm) * np.exp(phi)]])
+        for i in range(0, self.n.shape[0]-1):
+            phi = 2j * np.pi * self.n[i+1] * self.d[i+1] / incidentwavelength
+            transition_matrix = np.array([[0.5 * (1 + nm[i]) * np.exp(-phi), 0.5 * (1 - nm[i]) * np.exp(phi)],
+                                          [0.5 * (1 - nm[i]) * np.exp(-phi), 0.5 * (1 + nm[i]) * np.exp(phi)]])
 
-            general_transition_matrix = np.eye(2, dtype=complex)
-            for k in range(0, transition_matrix.shape[2]):
-                general_transition_matrix = np.dot(general_transition_matrix, transition_matrix[:, :, k])
+            transition_matrix = np.swapaxes(transition_matrix, 2, 0)
+            transition_matrix = np.swapaxes(transition_matrix, 2, 1)
+            general_transition_matrix = np.array(list(map(lambda x, y: np.dot(x, y), general_transition_matrix, transition_matrix)))
 
-            r[i] = - general_transition_matrix.item(2) / general_transition_matrix.item(3)
+        r = - general_transition_matrix[:,1,0] / general_transition_matrix[:,1,1]
         return r
 
     def diff_omega(self, y, incidentwavelength):
