@@ -9,4 +9,4 @@
 #SBATCH --mail-user=205276@edu.p.lodz.pl
 #SBATCH --mail-type=END
 
-mpirun -mca btl_base_warn_component_unused 0 si_mpi1.py $SLURM_ARRAY_TASK_ID results$SLURM_ARRAY_TASK_ID > wyn$SLURM_ARRAY_TASK_ID.txt
+mpirun -mca btl_base_warn_component_unused 0 si_mpi.py $SLURM_ARRAY_TASK_ID results$SLURM_ARRAY_TASK_ID > wyn$SLURM_ARRAY_TASK_ID.txt
