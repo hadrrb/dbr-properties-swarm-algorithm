@@ -1,0 +1,12 @@
+#!/bin/bash
+#SBATCH --time=10:00:00
+#SBATCH --qos=normal
+#SBATCH --mem-per-cpu=1G
+#SBATCH -n 15
+#SBATCH --array=0-5
+#SBATCH -J si
+#SBATCH -o si_%a.out
+#SBATCH --mail-user=205276@edu.p.lodz.pl
+#SBATCH --mail-type=END
+
+mpirun -mca btl_base_warn_component_unused 0 si_mpi1.py $SLURM_ARRAY_TASK_ID results$SLURM_ARRAY_TASK_ID > wyn$SLURM_ARRAY_TASK_ID.txt
