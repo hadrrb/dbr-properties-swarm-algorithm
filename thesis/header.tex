@@ -1,0 +1,84 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% This is a sample header for a sample dissertation. Fill in the name,
+% and the other information. LaTeX will work out the table of
+% content, the list of figures and of tables for you.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newpage
+\thispagestyle{empty}
+
+
+
+
+% ******* Title page *******
+% **************************
+
+\begin{onehalfspacing}
+\begin{center}
+
+\centering
+\includegraphics[keepaspectratio,scale=0.5]{./figures/logo.png} \\[.8cm]
+
+
+{\fontsize{17}{17}\selectfont
+\textsc{Politechnika Łódzka \\[.3cm]
+Wydział Fizyki Technicznej, Informatyki i Matematyki Stosowanej  \\[.3cm]
+Kierunek Fizyka Techniczna  \\[2.5cm]}
+\textbf{Praca dyplomowa inżynierska\\[1.7cm]}}
+
+
+
+\large 
+{Modelowanie dyspersyjnych własności optycznych zwierciadeł DBR za pomocą algorytmów rojowych} \\[2.3cm]
+% Jeśli tytuł pracy zajmuje 2 linijki, wartość [2.3cm] zamieniamy na [3.1cm], jeśli tylko jedną - na [3.9cm] i odwrotnie - zwiększając liczbę linijek o jedną (do czterech) zmieniamy na [1.5cm] itd.
+
+
+\large
+\begin{flushleft}
+Autor: Ramzi Hadrich  \\
+Kierujący pracą:  dr hab. inż. Maciej Dems \\
+\end{flushleft}
+
+\vspace{3cm}
+Łódź, luty 2019
+\end{center}
+\end{onehalfspacing}
+
+\singlespacing
+
+\newpage
+\thispagestyle{empty}
+\mbox{}
+\newpage
+
+\thispagestyle{empty}
+%ABSTRACT
+\begin{abstract}
+W niniejszej pracy zastosowano algorytmy rojowe do kontroli dyspersji w zwierciadłach DBR w celu otrzymania ultrakrótkich impulsów. Na początku została zaprezentowana zasada działania algorytmów rojowych i zostało sprawdzone czy algorytmy te faktycznie działają. W dalszej części została przedstawiona metoda macierzy przejścia w celu określenia odbijalności i dyspersji grupowego opóźnienia danej struktury. Dodatkowo pokazano metodę działania funkcji celu. Następnie zaprezentowano trzy podejścia przedstawienia danych na których operuje algorytm rojowy, jak i wyniki obliczeń na bazie tych podejść. Najlepsze wyniki otrzymano na podstawie pierwszego, najprostszego podejścia zakładającego wykorzystanie grubości warstw, lecz wymaga ono znajomość dobrej struktury do rozpoczęcia obliczeń. Obserwując resztę wyników można zauważyć, że metoda faktycznie działa i program dąży do uzyskania struktur lepszych.
+\end{abstract}
+%END OF ABSTRACT
+\vspace{2cm}
+\renewcommand{\abstractname}{Abstract}
+\begin{abstract}
+Swarm algorithms were used to control the dispersion in DBR mirrors in order to obtain ultrashort pulses. At the beginning, swarm algorithms were presented and tested if they really work. After that, the transition matrix method for determining the reflectivity and group delay dispersion for the given structure was shown, as well as the goal function. Then, 3 different approaches for representing the working variable of the algorithm for resolving the problem of finding DBR mirrors with possibly smallest value of group delay dispersion were presented, along with the corresponding results. The best results were observed in the first and easiest approach, that consisted in using layers' thickness, however it requires to start the calculations from a known, well optimised, structure. Observing the remaining results, it is clear that this method is working and the algorithm tends to generate better structures.
+\end{abstract}
+
+
+\doublespacing
+\newpage
+\thispagestyle{empty}
+\mbox{}
+
+%\pagestyle{empty}
+%\pagenumbering{Roman}
+ \pagestyle{plain}
+
+
+\tableofcontents
+
+\listoffigures
+\listoftables
+
+
+
+\pagestyle{fancy}

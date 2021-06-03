@@ -1,0 +1,186 @@
+\section{Metoda macierzy przejścia} \label{macierz} %3.	Opis metody macierzy przejścia 
+
+Pierwszym etapem jest wyznaczenie funkcji pozwalającej na określenie wartości współczynnika odbicia R jak i GDD dla dowolnego zwierciadła DBR. Posłużymy się metodą macierzy przejścia, która polega na wyznaczeniu macierzy przejścia wektora natężenia pola elektrycznego z jednej warstwy do drugiej, a następnie, na tej podstawie, macierzy przejścia dla całej struktury.
+
+Wiązka światłą padająca na zwierciadło DBR jest, zgodnie z istotą korpuskularno-falową światła, falą elektromagnetyczną. Pole elektryczne w każdej z warstw zwierciadła DBR ma postać:
+\begin{equation}
+    E_m(z) = F_me^{-in_m \frac\omega c z} + B_me^{in_m \frac\omega c z},
+\end{equation}
+
+gdzie $F_m$ i $B_m$ odpowiadają fali poruszającej się w kierunku $z$ z kolejno zwrotem dodatnim i ujemnym. \\
+Pochodna powyższej wartości ma postać: 
+
+\begin{equation}
+    \frac{\partial E_m}{\partial z} = -i n_m \frac\omega c(F_me^{-in_m \frac\omega cz} - B_me^{in_m \frac\omega cz}).
+\end{equation}
+
+Na rysunku \ref{fig:transmatr} przedstawiono schemat ilustrujący rozkład sił pola elektrycznego w zwierciadle. Przyjmijmy $F'_m = F_m e^{-i\phi_m}$ i $B'_m = B_m e^{i\phi_m}$, gdzie $\phi = n_m \frac\omega c d_m$.
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        \draw (3,5) -- (3,0) 
+        (1.5,5.3) node {$n_0$}
+        (4,5.3) node {$n_1$}
+        (3,-0.3) node {$z_0$};
+        \draw (5,5) -- (5,0) 
+        (6.5,5.3) node {$n_2$}
+        (5,-0.3) node {$z_1$};
+        \draw (8,5) -- (8,0) 
+        (9,5.3) node {$n_3$}
+        (8,-0.3) node {$z_2$};
+        \draw (10,5) -- (10,0)
+        (11.5,2.5) node {...}
+        (10,-0.3) node {$z_3$};
+        \draw (13,5) -- (13,0)
+        (13,-0.3) node {$z_N$}
+        (14,5.3) node {$n_N$};
+        %skladowe F
+        \draw[->] (2.25,3.5) -- (3,3.5) node[above left] {$F_0$};
+        \draw[->] (3,3.5) -- (3.75,3.5) node[above] {$F_1$};
+        \draw[color = red, ->] (4.25,3.5) -- (5,3.5) node[above left] {$F'_1$};
+        \draw[->] (5,3.5) -- (5.75,3.5) node[above] {$F_2$};
+        \draw[color = red, ->] (7.25,3.5) -- (8,3.5) node[above left] {$F'_2$};
+        \draw[->] (8,3.5) -- (8.75,3.5) node[above] {$F_3$};
+        \draw[color = red, ->] (9.25,3.5) -- (10,3.5) node[above left] {$F'_3$};
+        \draw[->] (10,3.5) -- (10.75,3.5) node[above] {$F_4$};
+        \draw[color = red, ->] (12.25,3.5) -- (13,3.5) node[above left] {$F'_{N-1}$};
+        \draw[->] (13,3.5) -- (13.75,3.5) node[above] {$F_N$};
+        %skladowe B
+        \draw[<-] (2.25,1.5) -- (3,1.5) node[above left] {$B_0$};
+        \draw[<-] (3,1.5) -- (3.75,1.5) node[above] {$B_1$};
+        \draw[color = red, <-] (4.25,1.5) -- (5,1.5) node[above left] {$B'_1$};
+        \draw[<-] (5,1.5) -- (5.75,1.5) node[above] {$B_2$};
+        \draw[color = red, <-] (7.25,1.5) -- (8,1.5) node[above left] {$B'_2$};
+        \draw[<-] (8,1.5) -- (8.75,1.5) node[above] {$B_3$};
+        \draw[color = red, <-] (9.25,1.5) -- (10,1.5) node[above left] {$B'_3$};
+        \draw[<-] (10,1.5) -- (10.75,1.5) node[above] {$B_4$};
+        \draw[color = red, <-] (12.25,1.5) -- (13,1.5) node[above left] {$B'_{N-1}$};
+        \draw[<-] (13,1.5) -- (13.75,1.5) node[above] {$B_{N}$};
+    \end{tikzpicture}
+    \caption{Schemat zwierciadła DBR}
+    \label{fig:transmatr}
+\end{figure}
+
+Warunek ciągłości dla poszczególnych warstw można zapisać następująco:
+\begin{equation}
+    \left\{
+    \begin{array}{l}
+        F'_m + B'_m = F_{m+1} + B_{m+1}, \\
+        n_m(F'_m - B'_m) = n_{m+1}(F_{m+1} - B_{m+1}).
+    \end{array}
+    \right.
+\end{equation}
+Rozwiązując powyższy układ równań względem $F'_m$ i $B'_m$ otrzymujemy:
+
+\begin{equation}
+    \left[
+    \begin{array}{c}
+    F_{m+1} \\ B_{m+1}
+    \end{array}
+    \right] = \frac 12
+    \left[
+    \begin{array}{cc}
+         (1 + \frac{n_m}{n_{m+1}}) &  (1 - \frac{n_m}{n_{m+1}})\\
+         (1 - \frac{n_m}{n_{m+1}}) &  (1 + \frac{n_m}{n_{m+1}})
+    \end{array}
+    \right]
+    \left[
+    \begin{array}{c}
+    F'_{m} \\ B'_{m}
+    \end{array}
+    \right].
+\end{equation}
+Korzystając z definicji $F'_m$ i $B'_m$ możemy zapisać:
+\begin{equation}
+    \left[
+    \begin{array}{c}
+    F_{m+1} \\ B_{m+1}
+    \end{array}
+    \right] = \frac 12
+    \left[
+    \begin{array}{cc}
+         (1 + \frac{n_m}{n_{m+1}}) &  (1 - \frac{n_m}{n_{m+1}})\\
+         (1 - \frac{n_m}{n_{m+1}}) &  (1 + \frac{n_m}{n_{m+1}})
+    \end{array}
+    \right]
+    \left[
+    \begin{array}{c}
+    e^{-i\phi_m} \\ e^{i\phi_m}
+    \end{array}
+    \right]
+    \left[
+    \begin{array}{c}
+    F_{m} \\ B_{m}
+    \end{array}
+    \right],
+\end{equation}
+co ostatecznie daje:
+\begin{equation}
+    \left[
+    \begin{array}{c}
+    F_{m+1} \\ B_{m+1}
+    \end{array}
+    \right] = \frac 12
+    \left[
+    \begin{array}{cc}
+         (1 + \frac{n_m}{n_{m+1}})e^{-i\phi_m} &  (1 - \frac{n_m}{n_{m+1}})e^{i\phi_m}\\
+         (1 - \frac{n_m}{n_{m+1}})e^{-i\phi_m} &  (1 + \frac{n_m}{n_{m+1}})e^{i\phi_m}
+    \end{array}
+    \right]
+    \left[
+    \begin{array}{c}
+    F_{m} \\ B_{m}
+    \end{array}
+    \right].
+\end{equation}
+Macierz $    \left[
+    \begin{array}{cc}
+         (1 + \frac{n_m}{n_{m+1}})e^{-i\phi_m} &  (1 - \frac{n_m}{n_{m+1}})e^{i\phi_m}\\
+         (1 - \frac{n_m}{n_{m+1}})e^{-i\phi_m} &  (1 + \frac{n_m}{n_{m+1}})e^{i\phi_m}
+    \end{array}
+    \right]$ nazywamy macierzą przejścia i notujemy $T_m$.
+    
+Dla lepszej czytelności zapiszmy $E_m =     \left[
+    \begin{array}{c}
+    F_{m} \\ B_{m}
+    \end{array}
+    \right]$.
+Można zauważyć, że wartość natężenia pola elektrycznego dla danej warstwy zależy od wartości natężenia dla warstwy poprzedniej:
+    
+\begin{align*}
+    &E_1 = T_0 E_0, \\
+    &E_2 = T_1 T_0 E_0, \\
+    &... \\
+    &E_N = (T_N ... T_1 T_0) E_0.
+\end{align*}
+
+Iloczyn poszczególnych macierzy przejścia, tj. macierz $T = T_N ... T_1 T_0$, nazywamy macierzą przejścia całej struktury.
+Zapiszmy macierz przejścia całej struktury w sposób następujący:
+$T = \left[
+\begin{array}{cc}
+   t_1  & t_2 \\
+   t_3  & t_4
+\end{array}
+\right]$.
+
+Korzystając z tak obliczonej macierzy przejścia można obliczyć amplitudowy współczynnik odbicia, który definiuje stosunek amplitudy fali odbitej do fali padającej. Jako, że $t_3$ odpowiada fali odbitej, natomiast $t_4$ fali padającej, można otrzymać wzór $r=-\frac{t_3}{t_4}$,
+%Amplitudowy współczynnik transmisji $t = t_1 - \frac{t_2t_3}{t_4}$
+oraz, na tej podstawie, współczynnik odbicia $R = rr^*$.
+%Współczynnik transmisji $T = \frac{n_N}{n_0}tt^*$
+
+Grupowe opóźnienie GD (Group Delay) można zdefiniować jako pierwsza pochodna zmiany fazy $\phi$ po częstotliwości $\omega$. Wiemy, że zmianę fazy można zapisać w postaci:
+\begin{equation}
+    \phi = \arctan\left(\frac{\mathrm{Im}(r)}{\mathrm{Re}(r)}\right),
+\end{equation}
+stąd GD obliczamy korzystając ze wzoru:
+
+\begin{equation}
+    GD = \frac{d\phi}{d\omega} = \frac{\mathrm{Im}(r) \frac{d}{d\omega}\mathrm{Re}(r) - \mathrm{Re}(r) \frac{d}{d\omega}\mathrm{Im}(r)}{rr^*} ,
+\end{equation}
+natomiast GDD jest pochodną GD po częstotliwości $\omega$, tak jak to przedstawiono we wzorze poniżej:
+
+\begin{equation}
+    GDD = \frac{d}{d\omega} GD.
+\end{equation}
+
+Tak otrzymane wzory posłużyły do sporządzenia modelu zwierciadła DBR (w postaci klasy) umożliwiającego obliczenie GDD i R dla danego zwierciadła. %Aby dokonać obliczeń wystarczy stworzyć nowy obiekt klasy \textit{DBRMirror} podając dane w postaci współczynników załamania i grubości dla poszczególnych warstw zwierciadła. Stworzenie takiego obiektu skutkuje automatycznym dokonaniem obliczeń i od tego momentu wartości GDD i R są dostępne jako atrybuty tej klasy.

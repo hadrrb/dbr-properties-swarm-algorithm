@@ -1,0 +1,102 @@
+\chapter{Implementacja}
+
+Po zrozumieniu istoty algorytmów rojowych przyszedł czas na zastosowanie tej wiedzy w praktyce. W tym rozdziale zostanie zaprezentowane w jaki sposób jest przedstawiona funkcja obliczająca własności dyspersyjne zwierciadła, jak została na jej podstawie zbudowana funkcja celu oraz jakie zostały zastosowane biblioteki i techniki programistyczne w opracowaniu tego algorytmu.
+
+\input{Rozdzialy/macierz_przejscia.tex}
+
+\section{Funkcja celu} \label{sect:cel}
+
+Mając już do dyspozycji wartości GDD i R, należy być w stanie je ocenić przy pomocy funkcji celu, która zostanie użyta w algorytmie rojowym. Celem pracy jest osiągnięcie wartości współczynnika odbicia jak najbliższej jedności, oraz możliwie najmniejszej wartości GDD przy zachowaniu minimalnej zmiany tej wartości w zadanym zakresie długości fali. Dlatego funkcja celu powinna brać pod uwagę następujące aspekty:
+\begin{enumerate}
+    \item czy wartość R jest bliska jedności poprzez zliczenie ilości wystąpień wartości większych niż $0,98$ na danym przedziale długości fali,
+    \item średnia wartości GDD,
+    \item wahanie wartości GDD poprzez obliczenie odchylenia standardowego od średniej oraz różnicy między największą i najmniejszą wartością jaką przyjmuje GDD w zadanym przedziale,
+\end{enumerate}
+warunki te pokazano na rysunku \ref{fig:idealne}. 
+
+\begin{figure}
+    \centering
+    \begin{tikzpicture}
+    \draw[->, thick] (0,0) -- (0,4) node[above]{$R$};
+    \draw[->, thick] (0,0) -- (5,0) node[right]{$\lambda$};
+    \draw[color=blue] (0.2,0) -- (0.2,3.5) -- (4.8,3.5) -- (4.8,0);
+    \node at (2.5,2.3)  {\includegraphics[width=4.8cm]{figures/funkcjacelu/R.png}};
+    \draw[thick] (-0.1,3.5) node[left]{1} -- (0.1, 3.5) ;
+    \draw[thick, dashed, red] (-0.1,3) node[left]{$0,98$} -- (5,3);
+    \draw[->, thick] (9,0) -- (9,4) node[above]{$GDD$};
+    \draw[->, thick] (9,3.5) -- (14,3.5) node[right]{$\lambda$};
+    \draw[thick] (8.9,0.2) node[left, text width=2cm]{najmniejsza możliwa wartość} -- (9.1, 0.2) ;
+    \draw[color=blue] (9.2,3) -- (10.2,3) -- (10.2,0.2) -- (12.8,0.2) -- (12.8,3) -- (13.8,3); 
+    \node at (11.5,1.85)  {\includegraphics[width=4.8cm]{figures/funkcjacelu/gdd.png}};
+    \draw[thick, dashed, red] (8.9,1.6) node[left]{średnia} -- (14,1.6);
+    \draw[<->, thick, black!40!green] (11.45,2.75) -- (11.45,1.6);
+    \draw[<->, thick, black!40!green] (9.85,3.18) -- (9.85,1.6);
+    \draw[<->, thick, black!40!green] (10.93,0.35) -- (10.93,1.6);
+   \draw[<->, thick, black!40!green] (11.83,1.06) -- (11.83,1.6);
+    \end{tikzpicture}
+    \caption{Warunki w funkcji celu}
+    Legenda: niebieska krzywa --- funkcja oczekiwana, pomarańczowa krzywa --- funkcja rzeczywista, zielone strzałki --- odchylenie punktu od wartości średniej.
+    \label{fig:idealne}
+\end{figure}
+
+Do każdego tak ustalonego parametru jest przypisywana waga, która określa w jakim stopniu dany parametr wpływa na wynik końcowy. Im dany parametr jest bliżej żądanej wartości tym bardziej funkcja celu nagradza aktualne rozwiązanie. Otrzymujemy więc 4 wagi, kolejno: $c_R$, $c_{avGDD}$, $c_{devGDD}$, $c_{ptpGDD}$.
+
+W celu sprawdzenia poprawności tak zdefiniowanej funkcji celu, wzięto pod uwagę dwie struktury z wyraźnie różniącym się R i GDD. Dyspersyjne własności pierwszej struktury (pochodzącej z \cite{dbr1}) przedstawiono na rysunku \ref{fig:dbr1}, natomiast drugiej (pochodzącej z \cite{dbr2}) na \ref{fig:dbr2}. Można łatwo zauważyć, że w przypadku obu struktur odbijalność jest na prawidłowym poziomie, natomiast GDD w przypadku struktury 1 charakteryzuje się wyraźnym pikiem w granicach $1055\nm$. Struktura 2 natomiast charakteryzuje się GDD prawie, że stałym na poziomie $800\,\mathrm{fs^2}$. Z pełną pewnością można stwierdzić, że struktura 2 jest lepsza od struktury 1.
+
+\begin{figure}
+    \centering
+    \begin{subfigure}[b]{0.46\textwidth}
+        \includegraphics[width=\linewidth]{figures/funkcjacelu/result_Rdbr.png}
+        \caption{R (przedstawione również w powiększeniu)}
+    \end{subfigure}
+       \begin{subfigure}[b]{0.49\textwidth}
+        \includegraphics[width=\linewidth]{figures/funkcjacelu/result_gdddbr.png}
+        \caption{GDD\\~}
+    \end{subfigure}
+    \caption[Dyspersyjne własności struktury 1 (gorszej)]{Dyspersyjne własności struktury 1 z \cite{dbr1} (gorszej)}
+    \label{fig:dbr1}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \begin{subfigure}[b]{0.46\textwidth}
+        \includegraphics[width=\linewidth]{figures/funkcjacelu/result_Rdbr_opt.png}
+        \caption{R (przedstawione również w powiększeniu)}
+    \end{subfigure}
+       \begin{subfigure}[b]{0.49\textwidth}
+        \includegraphics[width=\linewidth]{figures/funkcjacelu/result_gdddbr_opt.png}
+        \caption{GDD (przedstawione również w powiększeniu)}
+    \end{subfigure}
+    \caption[Dyspersyjne własności struktury 2 (lepszej)]{Dyspersyjne własności struktury 2 z \cite{dbr2} (lepszej)}
+    \label{fig:dbr2}
+\end{figure}
+
+Wykonano obliczenia dla dwóch różnych wartości wag i otrzymano wyniki przedstawione w tabeli \ref{tab:funkcel}.
+
+\begin{table}[H]
+    \centering
+    \caption{Weryfikacja działania funkcji celu}
+    \begin{tabular}{|c|c|c|c|c|c|} \cline{5-6}
+        \multicolumn{4}{c}{} & \multicolumn{2}{|c|}{Wartość funkcji celu} \\\hline
+         $c_R$ & $c_{avGDD}$& $c_{devGDD}$& $c_{ptpGDD}$ &  Struktura 1 (gorsza) & Struktura 2 (lepsza)\\\hline
+         $0,5$ &$2$ &$10$& $1$& $69,596$ &$459,668$ \\\hline
+         $100000$ & $70$& $1$& $0$& $4583.742$ & $50419.277$ \\\hline
+    \end{tabular}
+    \label{tab:funkcel}
+\end{table}
+
+Obserwując wyniki z tabeli \ref{tab:funkcel} widać wyraźnie, że struktura 2 dostała znacznie lepszą ocenę niż struktura 1, która została uznana za gorszą na podstawie obserwacji wykresów z rysunków \ref{fig:dbr1} i \ref{fig:dbr2}. Więc funkcja celu działa w sposób prawidłowy i można jej użyć w algorytmie rojowym. 
+
+\section{Przedstawienie danych wejściowych i wyniki}
+\input{Rozdzialy/wyniki.tex}
+
+\section{Zastosowane technologie informatyczne}
+
+Pod koniec tego rozdziału należy jeszcze odpowiedzieć na pytanie jakie technologie zostały wykorzystane przy pisaniu programu jak i przy samym liczeniu. 
+Program został napisany w języku \textit{Python 3} z wykorzystaniem biblioteki \textit{numpy} do wykonywania obliczeń na macierzach oraz \textit{matplotplib} do wykonywania wykresów.
+
+Cały algorytm podczas jednego cyklu wykonywał ok. miliona obliczeń trwających ok. $0,40\,$s każde, co skutkowało trudnością w uruchomienia go na komputerze osobistym ze względu na małą moc obliczeniową i co za tym idzie bardzo bardzo długim czasie wykonywania obliczeń (ponad 111 godzin). Dlatego też skorzystano z klastrów komputerowych pod nazwą \textit{Dragon} i \textit{Hydra} należących do Zespołu Fotoniki Instytutu Fizyki Politechniki Łódzkiej, co umożliwiło znaczne skrócenie obliczeń, do około 3 godzin przy wykorzystaniu 48 wątków na klastrze.
+
+W celu wykorzystania dobrodziejstw klastra zastosowano bibliotekę \textit{mpi4py}, która pozwoliła na podział danych na poszczególne wątki i wykonywania obliczeń niezależnie. Później pod koniec każdej iteracji dane są zbierane do jednego wątku w celu podsumowania otrzymanych wyników.
+
+Podsumowując udało się, z sukcesem, zastosować algorytmy rojowe w celu znalezienia zwierciadła DBR oferującego jak najmniejszą możliwą dyspersję opróżnienia grupowego. Niestety otrzymane wyniki są zauważalne gorsze od tych znajdujących się w literaturze (np. w \cite{dbr2}), lecz metoda ta pokazuje zauważalny potencjał. 

@@ -1,0 +1,372 @@
+W celu uproszczenia problemu, założono, że zwierciadło jest zbudowane ze stałej liczby naprzemiennych warstw dwóch materiałów półprzewodnikowych: arsenku glinu AlAs oraz arsenku galu GaAs o współczynnikach załamania światła kolejno $n_1=2,956$ i $n_2=3,489$, które są również stałe podczas działania algorytmu. Dlatego też wystarczające będzie przedstawienie danych wejściowych w postaci grubości warstw do zastosowania algorytmu rojowego. Wprowadza to dużą losowość uzyskanych wyników, dlatego wykonano również obliczenia przedstawiając dane w postaci zmiennej wynikającej z warunku Bragg'a. Ponadto, sprawdzono wpływ przedstawienia danych w postaci dwóch parametrów: zmiennej wynikającej z warunku Bragg'a oraz zależności między grubościami warstw w parze. W dalszej części tekstu zostały przedstawione dokładne zależności między warstwami jakie zostały wzięte pod uwagę oraz wyniki jakie uzyskano dla każdego omawianego przypadku.
+
+\subsection{Losowanie grubości warstw}
+
+W pierwszej kolejności zastosowano bezpośrednio grubości warstw struktury złożonej ze 122 powłok kolejno GaAs i AlAs. Pierwsze $N$ rozwiązań jest generowane losowo w przedziale $\langle 5\nm, 1000\nm \rangle$. Otrzymane tak wyniki przedstawiono na rysunku \ref{fig:wynlosd}.
+
+\begin{figure} [H]
+    \centering
+    \begin{subfigure}[b]{0.30\textwidth}
+        \includegraphics[width=\linewidth]{figures/wyniki/losowe/d/result_Rresult0.png}
+        \caption{R w iteracji 0}
+    \end{subfigure}
+            \begin{subfigure}[b]{0.31\textwidth}
+        \includegraphics[width=\linewidth]{figures/wyniki/losowe/d/result_gddresult0.png}
+        \caption{GDD w iteracji 0}
+    \end{subfigure}
+            \begin{subfigure}[b]{0.32\textwidth}
+        \includegraphics[width=\linewidth]{figures/wyniki/losowe/d/result_ndresult0.png}
+        \caption{Iloczyn $nd$ w iteracji 0}
+    \end{subfigure}
+        \begin{subfigure}[b]{0.30\textwidth}
+        \includegraphics[width=\linewidth]{figures/wyniki/losowe/d/result_Rresult499.png}
+        \caption{R w iteracji 499}
+    \end{subfigure}
+        \begin{subfigure}[b]{0.31\textwidth}
+        \includegraphics[width=\linewidth]{figures/wyniki/losowe/d/result_gddresult499.png}
+        \caption{GDD w iteracji 499}
+    \end{subfigure}
+        \begin{subfigure}[b]{0.32\textwidth}
+        \includegraphics[width=\linewidth]{figures/wyniki/losowe/d/result_ndresult499.png}
+        \caption{Iloczyn $nd$ w iteracji 499}
+    \end{subfigure}
+    \caption{Wyniki obliczeń w przypadku losowania grubości warstw przy rozpoczęciu obliczeń od losowo wygenerowanej struktury}
+    Wartości parametrów: $N=1000$, $d_{near}= 0,005$, $w_{qual}=0,40$, $w_{best}=0,20$, $w_{better}=0,8$, $p_1=0,5$, $p_2=2$, $p_3=10$, $p_4=1$
+    \label{fig:wynlosd}
+\end{figure}
+
+Można zauważyć, że wyniki wyglądają bardzo źle, ale widać jednocześnie zmianę wynikowej struktury co świadczy o działaniu programu. Można wywnioskować, że rozpoczynając obliczenia w sposób zupełnie losowy jest bardzo mało prawdopodobne znalezienie rozwiązań dobrych. Dlatego postanowiono generować pierwsze $N$ rozwiązań generując rozwiązania z dalekiego sąsiedztwa $d_{far}$ struktury już wcześniej znanej. W tym celu zostały wykorzystane struktury 1 i 2 omawiane w podrozdziale \ref{sect:cel}. Wyniki zostały przedstawione na rysunkach \ref{fig:wynlos1} i \ref{fig:wynlos2}. Parametry zostały dobrane w identyczny sposób jak w przypadku rysunku \ref{fig:wynlosd}, natomiast wartość parametru $d_{far}$ wynosi $50$.
+
+\begin{figure} [H]
+    \centering
+    \begin{subfigure}[b]{0.30\textwidth}
+        \includegraphics[width=\linewidth]{figures/wyniki/losowe/dbr/result_Rresult0.png}
+        \caption{R w iteracji 0}
+    \end{subfigure}
+            \begin{subfigure}[b]{0.31\textwidth}
+        \includegraphics[width=\linewidth]{figures/wyniki/losowe/dbr/result_gddresult0.png}
+        \caption{GDD w iteracji 0}
+    \end{subfigure}
+            \begin{subfigure}[b]{0.32\textwidth}
+        \includegraphics[width=\linewidth]{figures/wyniki/losowe/dbr/result_ndresult0.png}
+        \caption{Iloczyn $nd$ w iteracji 0}
+    \end{subfigure}
+        \begin{subfigure}[b]{0.30\textwidth}
+        \includegraphics[width=\linewidth]{figures/wyniki/losowe/dbr/result_Rresult499.png}
+        \caption{R w iteracji 499}
+    \end{subfigure}
+        \begin{subfigure}[b]{0.31\textwidth}
+        \includegraphics[width=\linewidth]{figures/wyniki/losowe/dbr/result_gddresult499.png}
+        \caption{GDD w iteracji 499}
+    \end{subfigure}
+        \begin{subfigure}[b]{0.32\textwidth}
+        \includegraphics[width=\linewidth]{figures/wyniki/losowe/dbr/result_ndresult499.png}
+        \caption{Iloczyn $nd$ w iteracji 499}
+    \end{subfigure}
+    \caption{Wyniki obliczeń w przypadku losowania grubości warstw przy rozpoczęciu obliczeń od struktury 1 (gorszej)}
+    \label{fig:wynlos1}
+\end{figure}
+
+\begin{figure} [H]
+    \centering
+    \begin{subfigure}[b]{0.30\textwidth}
+        \includegraphics[width=\linewidth]{figures/wyniki/losowe/dbr_opt/result_Rresult0.png}
+        \caption{R w iteracji 0}
+    \end{subfigure}
+            \begin{subfigure}[b]{0.31\textwidth}
+        \includegraphics[width=\linewidth]{figures/wyniki/losowe/dbr_opt/result_gddresult0.png}
+        \caption{GDD w iteracji 0}
+    \end{subfigure}
+            \begin{subfigure}[b]{0.32\textwidth}
+        \includegraphics[width=\linewidth]{figures/wyniki/losowe/dbr_opt/result_ndresult0.png}
+        \caption{Iloczyn $nd$ w iteracji 0}
+    \end{subfigure}
+        \begin{subfigure}[b]{0.30\textwidth}
+        \includegraphics[width=\linewidth]{figures/wyniki/losowe/dbr_opt/result_Rresult499.png}
+        \caption{R w iteracji 499}
+    \end{subfigure}
+        \begin{subfigure}[b]{0.31\textwidth}
+        \includegraphics[width=\linewidth]{figures/wyniki/losowe/dbr_opt/result_gddresult499.png}
+        \caption{GDD w iteracji 499}
+    \end{subfigure}
+        \begin{subfigure}[b]{0.32\textwidth}
+        \includegraphics[width=\linewidth]{figures/wyniki/losowe/dbr_opt/result_ndresult499.png}
+        \caption{Iloczyn $nd$ w iteracji 499}
+    \end{subfigure}
+    \caption{Wyniki obliczeń w przypadku losowania grubości warstw przy rozpoczęciu obliczeń od struktury 2 (lepszej)}
+    \label{fig:wynlos2}
+\end{figure}
+\newpage
+Można zauważyć, że dla lepszej struktury otrzymano wyniki zdecydowanie lepsze, co dowodzi, że to jest dobry sposób na lekkie polepszenie już istniejącej struktury, jednocześnie nie umożliwiając stworzenia nowej struktury zupełnie od zera. Dodatkowo można zauważyć, że w przypadku \ref{fig:wynlos2} najlepsza struktura nie zmieniła się po 499 iteracjach, co ilustruje trudność otrzymania w ten sposób rozwiązań naprawdę dobrych.
+
+Dodatkowo powtórzono obliczenia z rysunku \ref{fig:wynlos2}, lecz wykorzystując tym razem 100 razy większą ilości pszczół zwiadowców przy mniejszej ilości iteracji (ze względu na ich znaczącą długość). Otrzymane wyniki przedstawiono na rysunku \ref{fig:wynlos3}. Można zauważyć, że różnice między otrzymanymi wykresami nie są znaczące i zmiana tego parametru nie ma wpływu na wynik w tym wypadku.
+
+\begin{figure} [H]
+    \centering
+    \begin{subfigure}[b]{0.30\textwidth}
+        \includegraphics[width=\linewidth]{figures/wyniki/losowe/dbr_opt10/result_Rresult0.png}
+        \caption{R w iteracji 0}
+    \end{subfigure}
+            \begin{subfigure}[b]{0.31\textwidth}
+        \includegraphics[width=\linewidth]{figures/wyniki/losowe/dbr_opt10/result_gddresult0.png}
+        \caption{GDD w iteracji 0}
+    \end{subfigure}
+            \begin{subfigure}[b]{0.32\textwidth}
+        \includegraphics[width=\linewidth]{figures/wyniki/losowe/dbr_opt10/result_ndresult0.png}
+        \caption{Iloczyn $nd$ w iteracji 0}
+    \end{subfigure}
+        \begin{subfigure}[b]{0.30\textwidth}
+        \includegraphics[width=\linewidth]{figures/wyniki/losowe/dbr_opt10/result_Rresult10.png}
+        \caption{R w iteracji 10}
+    \end{subfigure}
+        \begin{subfigure}[b]{0.31\textwidth}
+        \includegraphics[width=\linewidth]{figures/wyniki/losowe/dbr_opt10/result_gddresult10.png}
+        \caption{GDD w iteracji 10}
+    \end{subfigure}
+        \begin{subfigure}[b]{0.32\textwidth}
+        \includegraphics[width=\linewidth]{figures/wyniki/losowe/dbr_opt10/result_ndresult10.png}
+        \caption{Iloczyn $nd$ w iteracji 10}
+    \end{subfigure}
+    \caption{Wyniki obliczeń w przypadku losowania grubości warstw przy rozpoczęciu obliczeń od struktury 2 (lepszej) i $N = 100000$ pszczół}
+    \label{fig:wynlos3}
+\end{figure}
+
+\subsection{Losowanie parametru wykorzystującego warunek Bragg'a} % df = n_warstw - n_warstw/2
+Następnie, aby polepszyć uzyskiwanie wyniki i zminimalizować losowość, skorzystano z warunku Bragg'a:
+\begin{equation}
+    n_1d_1 + n_2d_2 = \frac{\lambda_B}{2}, \label{eq:bragg}
+\end{equation}
+gdzie $n_1$, $n_2$ --- współczynniki załamania warstw $1$ i $2$, $d_1$, $d_2$ --- grubości warstw $1$ i $2$, $\lambda_B$ --- długość fali Bragg'a czyli długość fali dla której zwierciadło osiąga maksimum odbijalności. Warunek ten posłużył do wprowadzenia zmiennej $c$, zdefiniowanej według wzoru:
+\begin{equation}
+    \lambda_B = \lambda c. \label{eq:c}
+\end{equation}
+Wartość $\lambda$ oznacza środek właśnie badanego przedziału długości fali. Tak dobrana zmienna $c$ oscyluje w przedziale $\langle 0,5, 1,5 \rangle$, a co za tym idzie $\lambda_B$ przyjmuje wartości od $500\nm$ do $1500\nm$ przy $\lambda = 1000\nm$. Dodatkowo wprowadzono warunek na zachowanie równości iloczynu $nd$ dla każdej z warstw w danej parze, zgodnie ze wzorem $n_1d_1=n_2d_2$. Na tej podstawie otrzymano następujące wzory na grubości warstw w parze: 
+
+\begin{equation}
+    \left\{ \begin{array}{c}
+         d_1 = \frac{c\lambda}{4n_1}, \\ d_2 = \frac{c\lambda}{4n_2},
+    \end{array}\right.
+\end{equation}
+natomiast wartość $c$ można obliczyć podstawiając \ref{eq:c} do \ref{eq:bragg}, co daje następujące równanie:
+\begin{equation}
+    c = \frac{2}{\lambda} \cdot (n_1d_1 + n_2d_2).
+\end{equation}
+Tak otrzymane równania posłużyły do stworzenia funkcji konwersji z grubości warstw do zmiennej $c$ i w odwrotnym kierunku. W tym momencie możliwe było już zastosowanie zmiennej $c$ w algorytmie rojowym. Tak też zostało zrobione i po licznym próbach korzystając z różnych wartości wag funkcji celu, udało się uzyskać wyniki przedstawione na rysunku \ref{fig:wyn1stp} korzystając ze współczynników załamania struktury 1 (gorszej). Dodatkowo wykonano dla tych samych parametrów następne obliczenia na rysunku \ref{fig:wyn1stpopt1} tym razem korzystając z zestawu współczynników odbicia ze struktury 2 (lepszej). Na koniec wykonano jeszcze obliczenia zwiększając liczbę pszczół zwiadowców 100 krotnie względem \ref{fig:wyn1stpopt1} i przedstawiono wyniki na rysunku \ref{fig:wyn1stpopt2}.
+
+
+\begin{figure} [ht!]
+    \centering
+    \begin{subfigure}[b]{0.30\textwidth}
+        \includegraphics[width=\linewidth]{figures/wyniki/1stopien/fcelptp/result_R0.png}
+        \caption{R w iteracji 0}
+    \end{subfigure}
+            \begin{subfigure}[b]{0.31\textwidth}
+        \includegraphics[width=\linewidth]{figures/wyniki/1stopien/fcelptp/result_gdd0.png}
+        \caption{GDD w iteracji 0}
+    \end{subfigure}
+        \begin{subfigure}[b]{0.32\textwidth}
+        \includegraphics[width=\linewidth]{figures/wyniki/1stopien/fcelptp/result_nd0.png}
+        \caption{Iloczyn $nd$ w iteracji 0}
+    \end{subfigure}
+        \begin{subfigure}[b]{0.30\textwidth}
+        \includegraphics[width=\linewidth]{figures/wyniki/1stopien/fcelptp/result_R1.png}
+        \caption{R w iteracji 499}
+    \end{subfigure}
+        \begin{subfigure}[b]{0.31\textwidth}
+        \includegraphics[width=\linewidth]{figures/wyniki/1stopien/fcelptp/result_gdd1.png}
+        \caption{GDD w iteracji 499}
+    \end{subfigure}
+        \begin{subfigure}[b]{0.32\textwidth}
+        \includegraphics[width=\linewidth]{figures/wyniki/1stopien/fcelptp/result_nd1.png}
+        \caption{Iloczyn $nd$ w iteracji 499}
+    \end{subfigure}
+    \caption{Wyniki obliczeń w przypadku losowania parametru wykorzystującego warunek Bragg'a przy wykorzystaniu współczynników załamania ze struktury 1}
+    Wartości parametrów: $N= 1000$, $d_{near}= 0,005$, $w_{qual}=0,40$, $w_{best}=0,20$, $w_{better}=0,8$, $p_1=0,5$, $p_2=2$, $p_3=10$, $p_4=1$
+    \label{fig:wyn1stp}
+\end{figure}
+
+Można zauważyć na podstawie przedstawionych wyników, że otrzymane wyniki są gorsze od uzyskanego na rysunku \ref{fig:wynlos2}. Dodatkowo iloczyny $nd$ dla każdej warstwy z danej pary są równe, co świadczy o działaniu programu w sposób pożądany. Dodatkowo można zaobserwować ciekawy rezultat --- wyniki korzystające ze struktury teoretycznie gorszej dały zauważalnie lepszy wynik niż te korzystające ze struktury teoretycznie lepszej. Oprócz tego widać, że obliczenia przy większej ilości pszczół zwiadowców (rysunek \ref{fig:wyn1stpopt2} dają gorsze rezultaty niż te przy mniejszej ich ilości (rysunek \ref{fig:wyn1stpopt1}), w odróżnieniu od podejścia korzystającego z samych grubości warstw.
+
+\begin{figure} [H]
+    \centering
+    \begin{subfigure}[b]{0.30\textwidth}
+        \includegraphics[width=\linewidth]{figures/wyniki/1stopien/opt1000/result_Rresult0.png}
+        \caption{R w iteracji 0}
+    \end{subfigure}
+            \begin{subfigure}[b]{0.31\textwidth}
+        \includegraphics[width=\linewidth]{figures/wyniki/1stopien/opt1000/result_gddresult0.png}
+        \caption{GDD w iteracji 0}
+    \end{subfigure}
+            \begin{subfigure}[b]{0.32\textwidth}
+        \includegraphics[width=\linewidth]{figures/wyniki/1stopien/opt1000/result_ndresult0.png}
+        \caption{Iloczyn $nd$ w iteracji 0}
+    \end{subfigure}
+        \begin{subfigure}[b]{0.30\textwidth}
+        \includegraphics[width=\linewidth]{figures/wyniki/1stopien/opt1000/result_Rresult499.png}
+        \caption{R w iteracji 499}
+    \end{subfigure}
+        \begin{subfigure}[b]{0.31\textwidth}
+        \includegraphics[width=\linewidth]{figures/wyniki/1stopien/opt1000/result_gddresult499.png}
+        \caption{GDD w iteracji 499}
+    \end{subfigure}
+        \begin{subfigure}[b]{0.32\textwidth}
+        \includegraphics[width=\linewidth]{figures/wyniki/1stopien/opt1000/result_ndresult499.png}
+        \caption{Iloczyn $nd$ w iteracji 499}
+    \end{subfigure}
+    \caption{Wyniki obliczeń w przypadku losowania parametru wykorzystującego warunek Bragg'a przy wykorzystaniu współczynników załamania ze struktury 2}
+    Wartości parametrów: $N= 1000$, $d_{near}= 0,005$, $w_{qual}=0,40$, $w_{best}=0,20$, $w_{better}=0,8$, $p_1=0,5$, $p_2=2$, $p_3=10$, $p_4=1$
+    \label{fig:wyn1stpopt1}
+\end{figure}
+
+\begin{figure} [H]
+    \centering
+    \begin{subfigure}[b]{0.30\textwidth}
+        \includegraphics[width=\linewidth]{figures/wyniki/1stopien/opt10^5/result_Rresult0.png}
+        \caption{R w iteracji 0}
+    \end{subfigure}
+            \begin{subfigure}[b]{0.31\textwidth}
+        \includegraphics[width=\linewidth]{figures/wyniki/1stopien/opt10^5/result_gddresult0.png}
+        \caption{GDD w iteracji 0}
+    \end{subfigure}
+            \begin{subfigure}[b]{0.32\textwidth}
+        \includegraphics[width=\linewidth]{figures/wyniki/1stopien/opt10^5/result_ndresult0.png}
+        \caption{Iloczyn $nd$ w iteracji 0}
+    \end{subfigure}
+        \begin{subfigure}[b]{0.30\textwidth}
+        \includegraphics[width=\linewidth]{figures/wyniki/1stopien/opt10^5/result_Rresult10.png}
+        \caption{R w iteracji 10}
+    \end{subfigure}
+        \begin{subfigure}[b]{0.31\textwidth}
+        \includegraphics[width=\linewidth]{figures/wyniki/1stopien/opt10^5/result_gddresult10.png}
+        \caption{GDD w iteracji 10}
+    \end{subfigure}
+        \begin{subfigure}[b]{0.32\textwidth}
+        \includegraphics[width=\linewidth]{figures/wyniki/1stopien/opt10^5/result_ndresult10.png}
+        \caption{Iloczyn $nd$ w iteracji 10}
+    \end{subfigure}
+    \caption{Wyniki obliczeń w przypadku losowania parametru wykorzystującego warunek Bragg'a przy wykorzystaniu współczynników załamania ze struktury 2}
+    Wartości parametrów: $N= 100000$, $d_{near}= 0,005$, $w_{qual}=0,40$, $w_{best}=0,20$, $w_{better}=0,8$, $p_1=0,5$, $p_2=2$, $p_3=10$, $p_4=1$
+    \label{fig:wyn1stpopt2}
+\end{figure}
+
+\subsection{Losowanie 2 parametrów korzystając z warunku Bragg'a i zależności między grubościami warstw} % df = n_warstw - n_warstw
+Na koniec, inspirując się pracą \cite{dbr2}, gdzie z sukcesem udało się znaleźć dobre wyniki zarówno dla GDD i R korzystając z algorytmów genetycznych i prezentując dane w postaci dwóch parametrów: jeden zależny od warunku Bragg'a jak w przypadku poprzednim a drugi wprowadzający zależność między iloczynami $nd$ dla warstw w każdej parze, postanowiono sprawdzić czy również w przypadku algorytmów rojowych ta reprezentacja da rónie dobre wyniki. W tym celu zastosowano następujący układ równań:
+\begin{equation}
+    \left\{\begin{array}{l}
+         n_1d_1 + n_2d_2 = \frac{\lambda_B}{2},  \\
+         n_1d_1=h(n_1d_1 + n_2d_2) = h \cdot\frac{\lambda_B}{2}, \\
+          n_2d_2=(1-h)(n_1d_1 + n_2d_2) = (1-h) \cdot\frac{\lambda_B}{2}, \\
+          \lambda_B=\lambda\left[1+s\left(c-\frac 12\right)\right],
+    \end{array}\right.
+\end{equation}
+gdzie: c, h --- zmienne przyjmujące wartości z zakresu $\langle0, 1\rangle$, które będą używane w algorytmie rojowym jako argument badanej funkcji (jedna para tych wartości odpowiada parze w strukturze DBR), s --- parametr pozwalający określić zakres wartości jakie przyjmuje $\lambda_B$. \\
+Korzystając z tak przygotowanego układu równań, można wyznaczyć grubości warstw w danej parze:
+\begin{equation}
+    \left\{ \begin{array}{l}
+         d_1 = \displaystyle\frac{h\lambda_B}{2n_1}, \\ d_2 = \displaystyle\frac{(1-h)\lambda_B}{2n_2}.
+    \end{array}\right.
+\end{equation}
+Na podstawie tych wzorów sporządzono funkcję umożliwiającą transformację tablicy zmiennych $c$ i $h$ w tablicę grubości warstw w zwierciadle. Dodatkowo można było sporządzić funkcję odwrotną poprzez wyznaczenie wartości $c$ i $h$ zgodnie z:
+\begin{equation}
+    \left\{\begin{array}{l}
+          c = \displaystyle\frac{2}{\lambda s}(n_1d_1 + n_2d_2) - \frac 1s + \frac 12, \\
+           h = 1 + \displaystyle\frac{n_2d_2}{n_1d_1}.
+    \end{array}\right.
+\end{equation}
+
+Na podstawie tak wyznaczonych zmiennych i funkcji dokonano obliczeń dla wielu zestawów parametrów funkcji celu. Najlepsze wyniki jakie udało się uzyskać przy użyciu współczynników załamania ze struktury 1 omawianej w \ref{sect:cel} przedstawiono na rysunku \ref{fig:wyn2stp1}, natomiast te przy użyciu współczynników załamania ze struktury 2 przedstawiono na rysunku \ref{fig:wyn2stp2}. Dodatkowo postanowiono sprawdzić, również tutaj, wpływ zmiany ilości zwiadowców na wynik. W tym celu przyjęto $N=100000$ i wykonano obliczenia, których rezultat został przedstawiony na rysunku \ref{fig:wyn2stp3}.
+
+Można zauważyć, że wyniki przedstawione na rysunkach \ref{fig:wyn2stp1}, \ref{fig:wyn2stp2} i \ref{fig:wyn2stp3} są znacznie gorsze od wyników otrzymanych w poprzednich podejściach. Natomiast porównując je bezpośrednio do siebie, można zauważyć, że zmiana ilości par zwierciadeł DBR i wprowadzenie dodatkowych warstw z innych materiałów półprzewodnikowych znaczącą polepszyło rozwiązania na rysunku \ref{fig:wyn2stp2} względem \ref{fig:wyn2stp1}. Ponadto widać, że w tym wypadku, zwiększenie liczby pszczół zwiadowców nie wpłynęło szczególnie na jakość otrzymanego rozwiązania, natomiast zauważalnie przyspieszyło proces wyznaczenia rozwiązania finalnego, gdyż na rysunku \ref{fig:wyn2stp3} widać, że wykresy dla iteracji 0 jak i 10 są identyczne. Podsumowując, wyniki w przypadku algorytmu rojowego nie zyskują na jakości po wprowadzeniu tego sposobu reprezentacji danych, w odróżnieniu do algorytmów genetycznych. Możliwym sposobem na polepszenie wyników jest dopuszczenie zmiany ilości par zwierciadeł jak i dopuszczenie dodania dodatkowych warstw na koniec z innych materiałów. Takie rozwiązanie niestety nie zostało sprawdzone.
+
+\begin{figure} [ht!]
+    \centering
+    \begin{subfigure}[b]{0.30\textwidth}
+        \includegraphics[width=\linewidth]{figures/wyniki/2stopien/dbr/result_Rresult0.png}
+        \caption{R w iteracji 0}
+    \end{subfigure}
+            \begin{subfigure}[b]{0.31\textwidth}
+        \includegraphics[width=\linewidth]{figures/wyniki/2stopien/dbr/result_gddresult0.png}
+        \caption{GDD w iteracji 0}
+    \end{subfigure}
+        \begin{subfigure}[b]{0.32\textwidth}
+        \includegraphics[width=\linewidth]{figures/wyniki/2stopien/dbr/result_ndresult0.png}
+        \caption{Iloczyn $nd$ w iteracji 0}
+    \end{subfigure}
+        \begin{subfigure}[b]{0.30\textwidth}
+        \includegraphics[width=\linewidth]{figures/wyniki/2stopien/dbr/result_Rresult499.png}
+        \caption{R w iteracji 499}
+    \end{subfigure}
+        \begin{subfigure}[b]{0.31\textwidth}
+        \includegraphics[width=\linewidth]{figures/wyniki/2stopien/dbr/result_gddresult499.png}
+        \caption{GDD w iteracji 499}
+    \end{subfigure}
+        \begin{subfigure}[b]{0.32\textwidth}
+        \includegraphics[width=\linewidth]{figures/wyniki/2stopien/dbr/result_ndresult499.png}
+        \caption{Iloczyn $nd$ w iteracji 499}
+    \end{subfigure}
+    \caption{Wyniki obliczeń w przypadku losowania 2 parametrów przy wykorzystaniu współczynników załamania ze struktury 1}
+    Wartości parametrów: $N= 1000$, $d_{near}= 0,05$, $w_{qual}=0,2$, $w_{best}=0,2$, $w_{better}=0,8$, $p_1=0.5$, $p_2=2$, $p_3=10$, $p_4=1$, $s=0.038$
+    \label{fig:wyn2stp1}
+\end{figure}
+
+\begin{figure} [H]
+    \centering
+    \begin{subfigure}[b]{0.30\textwidth}
+        \includegraphics[width=\linewidth]{figures/wyniki/2stopien/result_Rresult0.png}
+        \caption{R w iteracji 0}
+    \end{subfigure}
+            \begin{subfigure}[b]{0.31\textwidth}
+        \includegraphics[width=\linewidth]{figures/wyniki/2stopien/result_gddresult0.png}
+        \caption{GDD w iteracji 0}
+    \end{subfigure}
+        \begin{subfigure}[b]{0.32\textwidth}
+        \includegraphics[width=\linewidth]{figures/wyniki/2stopien/result_ndresult0.png}
+        \caption{Iloczyn $nd$ w iteracji 0}
+    \end{subfigure}
+        \begin{subfigure}[b]{0.30\textwidth}
+        \includegraphics[width=\linewidth]{figures/wyniki/2stopien/result_Rresult499.png}
+        \caption{R w iteracji 499}
+    \end{subfigure}
+        \begin{subfigure}[b]{0.31\textwidth}
+        \includegraphics[width=\linewidth]{figures/wyniki/2stopien/result_gddresult499.png}
+        \caption{GDD w iteracji 499}
+    \end{subfigure}
+        \begin{subfigure}[b]{0.32\textwidth}
+        \includegraphics[width=\linewidth]{figures/wyniki/2stopien/result_ndresult499.png}
+        \caption{Iloczyn $nd$ w iteracji 499}
+    \end{subfigure}
+    \caption{Wyniki obliczeń w przypadku losowania 2 parametrów przy wykorzystaniu współczynników załamania ze struktury 2}
+    Wartości parametrów: $N= 1000$, $d_{near}= 0,005$, $w_{qual}=0,4$, $w_{best}=0,2$, $w_{better}=0,8$, $p_1=10$, $p_2=20$, $p_3=10$, $p_4=5$, $s=0.038$
+    \label{fig:wyn2stp2}
+\end{figure}
+
+\begin{figure} [H]
+    \centering
+    \begin{subfigure}[b]{0.30\textwidth}
+        \includegraphics[width=\linewidth]{figures/wyniki/2stopien/morebees/result_Rresult0.png}
+        \caption{R w iteracji 0}
+    \end{subfigure}
+            \begin{subfigure}[b]{0.31\textwidth}
+        \includegraphics[width=\linewidth]{figures/wyniki/2stopien/morebees/result_gddresult0.png}
+        \caption{GDD w iteracji 0}
+    \end{subfigure}
+        \begin{subfigure}[b]{0.32\textwidth}
+        \includegraphics[width=\linewidth]{figures/wyniki/2stopien/morebees/result_ndresult0.png}
+        \caption{Iloczyn $nd$ w iteracji 0}
+    \end{subfigure}
+        \begin{subfigure}[b]{0.30\textwidth}
+        \includegraphics[width=\linewidth]{figures/wyniki/2stopien/morebees/result_Rresult10.png}
+        \caption{R w iteracji 10}
+    \end{subfigure}
+        \begin{subfigure}[b]{0.31\textwidth}
+        \includegraphics[width=\linewidth]{figures/wyniki/2stopien/morebees/result_gddresult10.png}
+        \caption{GDD w iteracji 10}
+    \end{subfigure}
+        \begin{subfigure}[b]{0.32\textwidth}
+        \includegraphics[width=\linewidth]{figures/wyniki/2stopien/morebees/result_ndresult10.png}
+        \caption{Iloczyn $nd$ w iteracji 10}
+    \end{subfigure}
+    \caption{Wyniki obliczeń w przypadku losowania 2 parametrów przy wykorzystaniu współczynników załamania ze struktury 2}
+    Wartości parametrów: $N= 100000$, $d_{near}= 0,005$, $w_{qual}=0,4$, $w_{best}=0,2$, $w_{better}=0,8$, $p_1=10$, $p_2=20$, $p_3=10$, $p_4=5$, $s=0.038$
+    \label{fig:wyn2stp3}
+\end{figure}
